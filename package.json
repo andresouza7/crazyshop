@@ -1,0 +1,17 @@
+{
+  "name": "crazyshopp",
+  "version": "1.0.0",
+  "description": "fake ecomm shop",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "author": "urh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "faker": "^5.1.0",
+    "superb": "^4.0.0"
+  },
+  "devDependencies": {}
+}

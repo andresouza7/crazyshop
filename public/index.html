@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>CrazyShop</title>
+</head>
+
+<body>
+  <div class="cart" id="cart">
+    <button onclick="toggleCart()">Place order</button>
+    <button onclick="toggleCart()">Continue shopping</button>
+  </div>
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1>CrazyShop</h1>
+        <a href="">🎁 All Products</a>
+        <a href="">🤑 Hot deals</a>
+      </div>
+      <div>
+        <button onclick="toggleCart()">Shopping Cart 🛒</button>
+      </div>
+    </div>
+    <div class="search-bar">
+      <input type="text" name="search" placeholder="Pesquisar produtos..." id="search" onkeyup="search()">
+    </div>
+    <div class="main" id="list">
+
+    </div>
+    <div class="footer">
+        <p>My website with grid & flex Layout, 2021. Find me @ github/andresouza7</p>
+    </div>
+  </div>
+  <script>
+    var cartItems = [];
+    var cartOpen = true;
+
+    function toggleCart() {
+      let elCart = document.getElementById("cart");
+      elCart.style.visibility = cartOpen ? "hidden" : "visible";
+      cartOpen = !cartOpen;
+    }
+    function formatCurrency(value) {
+      return `$ ${value}`;
+    }
+    function search() {
+      let param = document.getElementById("search").value;
+      console.log(param);
+      fetch("/products/" + param)
+        .then(response => response.json())
+        .then(data => displayProducts(data));
+    }
+    fetch("/products")
+      .then(response => response.json())
+      .then(data => displayProducts(data));
+    function displayProducts(data) {
+      let list = document.getElementById("list");
+      list.innerHTML = "";
+      data.forEach(item => {
+        let card = document.createElement("div");
+        card.setAttribute("class", "card");
+        let title = document.createElement("div");
+        title.appendChild(document.createTextNode(item.title));
+        title.setAttribute("class", "product-title");
+        let price = document.createElement("div");
+        price.appendChild(document.createTextNode(formatCurrency(item.price)));
+        price.setAttribute("class", "product-price");
+        card.appendChild(title);
+        card.appendChild(price);
+        card.addEventListener("click", function() {
+          cartItems.push(item);
+        });
+        list.appendChild(card);
+      });
+    }
+  </script>
+</body>
+
+</html>
